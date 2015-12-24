@@ -1,10 +1,7 @@
 package kmgIpToCountry
 
 import (
-	"bytes"
-	"compress/gzip"
 	"github.com/oschwald/geoip2-golang"
-	"io/ioutil"
 	"net"
 	"sync"
 )
@@ -40,16 +37,17 @@ var geoipInitOnce sync.Once
 func EnsureInit() {
 	geoipInitOnce.Do(func() {
 		gzContent := getData()
-		r := bytes.NewReader(gzContent)
-		gzReader, err := gzip.NewReader(r)
-		if err != nil {
-			panic(err)
-		}
-		uncompressData, err := ioutil.ReadAll(gzReader)
-		if err != nil {
-			panic(err)
-		}
-		geoip2Reader, err = geoip2.FromBytes(uncompressData)
+//		r := bytes.NewReader(gzContent)
+//		gzReader, err := gzip.NewReader(r)
+//		if err != nil {
+//			panic(err)
+//		}
+//		uncompressData, err := ioutil.ReadAll(gzReader)
+//		if err != nil {
+//			panic(err)
+//		}
+		var err error
+		geoip2Reader, err = geoip2.FromBytes(gzContent)
 		if err != nil {
 			panic(err)
 		}
